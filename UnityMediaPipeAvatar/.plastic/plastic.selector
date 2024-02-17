@@ -1,0 +1,4 @@
+repository "UnityMediaPipeAvatar@santitomas28@cloud"
+  path "/"
+    smartbranch "/main/drafts" 
+     

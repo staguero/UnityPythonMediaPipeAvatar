@@ -12,9 +12,9 @@ PORT = 52733
 # Settings do not universally apply, not all WebCams support all frame rates and resolutions
 CAM_INDEX = 0 # OpenCV2 webcam index, try changing for using another (ex: external) webcam.
 USE_CUSTOM_CAM_SETTINGS = False
-FPS = 60
+FPS = 15
 WIDTH = 320
 HEIGHT = 240
 
 # [0, 2] Higher numbers are more precise, but also cost more performance. The demo video used 2 (good environment is more important).
-MODEL_COMPLEXITY = 2
+MODEL_COMPLEXITY = 1

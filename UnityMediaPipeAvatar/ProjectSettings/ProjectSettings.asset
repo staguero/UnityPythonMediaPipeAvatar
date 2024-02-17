@@ -719,11 +719,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 844dd9b8-ef4e-4803-9b7f-252228074762
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Unity Mediapipe
+  organizationId: santitomas28
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 

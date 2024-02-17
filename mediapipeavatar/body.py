@@ -1,7 +1,5 @@
 # MediaPipe Body
 import mediapipe as mp
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
 from clientUDP import ClientUDP
 
 import cv2
@@ -102,7 +100,9 @@ class BodyThread(threading.Thread):
 
                 self.send_data(self.data)
                     
-        self.pipe.close()
+        if self.pipe != None:
+            self.pipe.close()
+
         capture.cap.release()
         cv2.destroyAllWindows()
         pass

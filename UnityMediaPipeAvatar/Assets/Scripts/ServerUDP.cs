@@ -76,11 +76,10 @@ class ServerUDP
                     }
                 }
             }
-            catch (SocketException ex)
+            catch (SocketException)
             {
                 print("Connection lost.");
                 System.Threading.Thread.Sleep(1000);
-
                     StartListening();
                 break;
             }
