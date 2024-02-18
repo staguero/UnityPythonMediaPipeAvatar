@@ -1,4 +1,3 @@
-#pipe server
 from body import BodyThread
 import time
 import global_vars

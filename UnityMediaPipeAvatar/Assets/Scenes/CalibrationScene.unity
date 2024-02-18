@@ -5196,6 +5196,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1055126577752158228, guid: 1eb6969b7ef8ed44a9a446e718710222, type: 3}
+      propertyPath: active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055126577752158228, guid: 1eb6969b7ef8ed44a9a446e718710222, type: 3}
       propertyPath: useLegacyPipes
       value: 0
       objectReference: {fileID: 0}

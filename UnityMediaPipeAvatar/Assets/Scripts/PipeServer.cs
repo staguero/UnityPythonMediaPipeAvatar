@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using System.Collections.Generic;
 
 /* Currently very messy because both the server code and hand-drawn code is all in the same file here.
  * But it is still fairly straightforward to use as a reference/base.
@@ -34,7 +35,31 @@ public class PipeServer : MonoBehaviour
     private ServerUDP server;
 
     private Body body;
-
+    
+    // Diccionario para almacenar los nombres de las líneas y las partes del cuerpo
+    private class LineNames : MonoBehaviour
+    {
+    private readonly Dictionary<int, string> lineNames = new Dictionary<int, string>()
+    {
+        //https://developers.google.com/mediapipe/solutions/vision/pose_landmarker
+        { 0, "pie derecho" },
+        { 1, "pie izquierdo" },
+        { 2, "pierna derecha" },
+        { 3, "pierna izquierda" },
+        { 4, "torax" },
+        { 5, "brazo derecho (pulgar)" },
+        { 6, "brazo izquierdo (pulgar)" },
+        { 7, "mano derecha" },
+        { 8, "mano izquierda" },
+        { 9, "boca" },
+        { 10, "ojos" }
+    };
+    // Método público para obtener el diccionario de nombres de línea
+    public Dictionary<int, string> GetLineNames()
+    {
+        return lineNames;
+    }
+    }
     // these virtual transforms are not actually provided by mediapipe pose, but are required for avatars.
     // so I just manually compute them
     private Transform virtualNeck;
@@ -199,6 +224,8 @@ public class PipeServer : MonoBehaviour
         public GameObject[] instances = new GameObject[LANDMARK_COUNT];
         public LineRenderer[] lines = new LineRenderer[LINES_COUNT];
 
+        private LineNames nombres_huesos; // Referencia al componente LineNames
+
         public bool active;
 
         public Body(Transform parent, GameObject landmarkPrefab, GameObject linePrefab, float s, GameObject headPrefab)
@@ -228,6 +255,12 @@ public class PipeServer : MonoBehaviour
         }
         public void UpdateLines()
         {
+            // Imprimir los nombres de las líneas
+            Dictionary<int, string> lineNames = nombres_huesos.GetLineNames();
+            foreach (var linea in lineNames)
+            {
+                //Debug.Log($"linea[{linea.Key}], '{linea.Value}'");
+            }
             lines[0].positionCount = 4;
             lines[0].SetPosition(0, Position((Landmark)32));
             lines[0].SetPosition(1, Position((Landmark)30));

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>py2flowchart</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.18.0/flowchart.min.js"></script>
+    </head>
+    <body>
+        <div id="canvas"></div>
+        <pre id="code" style="display:none"></pre>
+        <script>
+            code= `
+start=>start: start
+operation1=>operation: from body import BodyThread
+operation2=>operation: import time
+operation3=>operation: import global_vars
+operation4=>operation: from sys import exit
+input5=>input: thread = BodyThread()
+operation6=>operation: thread.start()
+input7=>input: i = input()
+output8=>output: print("Exiting…")  
+operation9=>operation: global_vars.KILL_THREADS = True
+operation10=>operation: time.sleep(0.5)
+subroutine11=>subroutine: exit()
+end=>end: end
+start->operation1
+operation1->operation2
+operation2->operation3
+operation3->operation4
+operation4->input5
+input5->operation6
+operation6->input7
+input7->output8
+output8->operation9
+operation9->operation10
+operation10->subroutine11
+subroutine11->end
+
+`;
+            chart = flowchart.parse(code);
+            chart.drawSVG('canvas', {"line-width": 2});
+			console.log(code);
+			var code_pre = code.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
+            document.getElementById("code").innerHTML = code_pre;
+        </script>
+		<script>
+		// double click to copy svg to clipboard
+		document.ondblclick = async () => {
+			var svg = document.getElementsByTagName('svg')[0];
+			await navigator.clipboard.writeText(svg.outerHTML);
+		}
+		</script>
+		<!-- see https://github.com/dstang2000/py2flowchart -->
+    </body>
+</html>
