@@ -47,7 +47,6 @@ class BodyThread(threading.Thread):
     def run(self):
         mp_drawing = mp.solutions.drawing_utils
         mp_pose = mp.solutions.pose
-        ti = None
         self.setup_comms()
         
         capture = CaptureThread()
@@ -56,12 +55,8 @@ class BodyThread(threading.Thread):
         with mp_pose.Pose(min_detection_confidence=0.80, min_tracking_confidence=0.5, model_complexity = global_vars.MODEL_COMPLEXITY,static_image_mode = False,enable_segmentation = True) as pose: 
             
             while not global_vars.KILL_THREADS and capture.isRunning==False:
-                if not ti:
-                    ti = time.time()
-                    print("Initiating camera and capture thread.")
-                if time.time()-ti>=3:
-                    ti = time.time()
                     print("Waiting for camera and capture thread.")
+                    time.sleep(1)
             print("Beginning capture")
                 
             while not global_vars.KILL_THREADS and capture.cap.isOpened():
@@ -91,6 +86,7 @@ class BodyThread(threading.Thread):
                                                 mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2),
                                                 )
                     cv2.imshow('Body Tracking', image)
+                    cv2.waitKey(3)
 
                 # Set up data for sending
                 self.data = ""
@@ -117,13 +113,12 @@ class BodyThread(threading.Thread):
             print("Using Pipes for interprocess communication (not supported on OSX or Linux).")
         pass      
 
-    def send_data(self,message):
+    def send_data(self, message):
         if not global_vars.USE_LEGACY_PIPES:
             self.client.sendMessage(message)
-            pass
         else:
             # Maintain pipe connection.
-            if self.pipe==None and time.time()-self.timeSinceCheckedConnection>=1:
+            if self.pipe is None and time.time() - self.timeSinceCheckedConnection >= 1:
                 try:
                     # Abrir un pipe de Windows en modo lectura y escritura binaria, sin buffering,
                     # y asignar el objeto de archivo resultante a la variable `self.pipe`.
@@ -132,15 +127,14 @@ class BodyThread(threading.Thread):
                 except FileNotFoundError:
                     print("Waiting for Unity project to run...")
                     self.pipe = None
-                self.timeSinceCheckedConnection = time.time()
-
-            if self.pipe != None:
-                try:     
-                    s = self.data.encode('utf-8') 
-                    self.pipe.write(struct.pack('I', len(s)) + s)   
-                    self.pipe.seek(0)    
-                except Exception as ex:  
+                    self.timeSinceCheckedConnection = time.time()
+            if self.pipe is not None:
+                try:
+                    s = self.data.encode('utf-8')
+                    self.pipe.write(struct.pack('I', len(s)) + s)
+                    self.pipe.seek(0)
+                except Exception as ex:
                     print("Failed to write to pipe. Is the unity project open?")
-                    self.pipe= None
+                    self.pipe = None
         pass
                         

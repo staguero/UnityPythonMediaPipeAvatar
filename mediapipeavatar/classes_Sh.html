@@ -1,0 +1,43 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class BodyThread {
+            client
+            data : str
+            dirty : bool
+            pipe : NoneType
+            timeSinceCheckedConnection : int
+            timeSincePostStatistics : int
+            run()
+            send_data(message)
+            setup_comms()
+          }
+          class CaptureThread {
+            cap : NoneType
+            counter : int
+            frame : NoneType
+            isRunning : bool
+            ret : NoneType
+            timer : float
+            run()
+          }
+          class ClientUDP {
+            autoReconnect : bool
+            connected : bool
+            ip
+            port
+            socket : socket
+            connect()
+            disconnect()
+            isConnected()
+            run()
+            sendMessage(message)
+          }
+          ClientUDP --* BodyThread : client
+  
+       </div>
+  </body>
+</html>
